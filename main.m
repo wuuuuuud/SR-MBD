@@ -32,7 +32,7 @@ if exist('initialized','var')==0 || initialized==false || true
      
     g=zeros(channelN,sampledLength);
     for i=1:channelN
-        g(i,:)=getDownSampleMatrix(len,sampledLength,downSampleFactor,downSampleFactor)*conv(firstDownSampled,[i*0.01,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,(0.1-i*0.01)],'same');
+        g(i,:)=getDownSampleMatrix(len,sampledLength,downSampleFactor,i)*conv(firstDownSampled,[i*0.01,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,(0.1-i*0.01)],'same');
     end
 end
 hold off;
