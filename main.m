@@ -11,9 +11,9 @@ if exist('initialized','var')==0 || initialized==false || true
     len=length(Y);
     
         channelN=10%通道数
-    downSampleFactor=10;%降采样系数
+    downSampleFactor=5;%降采样系数
     sampledLength=ceil(len/downSampleFactor);
-     downSampleMatrix=sparse(1:(sampledLength),1:10:len,1,sampledLength,len);
+     downSampleMatrix=getDownSampleMatrix(len,sampledLength,downSampleFactor,1);
      firstDownSampled=downSampleMatrix*Y';
      len=ceil(len/downSampleFactor);
      
@@ -32,7 +32,8 @@ if exist('initialized','var')==0 || initialized==false || true
      
     g=zeros(channelN,sampledLength);
     for i=1:channelN
-        g(i,:)=getDownSampleMatrix(len,sampledLength,downSampleFactor,i)*conv(firstDownSampled,[i*0.01,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,(0.1-i*0.01)],'same');
+        
+        g(i,:)=getDownSampleMatrix(len,sampledLength,downSampleFactor,mod(i,downSampleFactor)+1)*conv(firstDownSampled,[i*0.02,0.2,0.2,0.2,0.2,(0.2-i*0.02)],'same');
     end
 end
 hold off;

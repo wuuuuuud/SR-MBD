@@ -28,21 +28,22 @@ if exist('initialized','var')==0 || initialized==false || true
 
     
     sampledLength=ceil(len/downSampleFactor);%实际得到的数据长度
-    downSampleMatrix=sparse(1:(sampledLength),1:10:len,1,sampledLength,len);
+    downSampleMatrix=sparse(1:(sampledLength),1:downSampleFactor:len,1,sampledLength,len);
      
     g=zeros(channelN,sampledLength);
     for i=1:channelN
-        g(i,:)=downSampleMatrix*conv(firstDownSampled,[i*0.01,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,(0.1-i*0.01)],'same')';
+        
+        g(i,:)=getDownSampleMatrix(len,sampledLength,downSampleFactor,i)*conv(firstDownSampled,[i*0.01,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,(0.1-i*0.01)],'same');
     end
 end
 hold off;
 figure;plot(firstDownSampled);
 figure
-plot(g(1,:));
 hold on;
-for i=2:channelN
+for i=1:channelN
     plot(g(i,:));
 end
+hold off
 %     
 %     ker=cell(1,channelN);%每个卷积核长度不相同,所以用了cell
 %     ker{1}=[Gauss_1D(22),zeros(1,10)];%第一个卷积核,符合能量守恒
